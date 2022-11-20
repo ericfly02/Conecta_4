@@ -55,18 +55,13 @@ public class MinMax implements Jugador, IAuto{
       if(t.getColor(i, columna) == t.getColor(fila, columna)){
         contador++;
       }
-      else{
-        break;
-      }
+      else break;
     }
     
     if (contador >= grup){
       return 1;
     }
-    else
-    {
-      return 0;
-    }
+    else return 0;
   }
 
   public int horitzontal(Tauler t, int columna, int fila, int color, int grup){
@@ -76,18 +71,13 @@ public class MinMax implements Jugador, IAuto{
       if(t.getColor(fila, i) == t.getColor(fila, columna)){
         contador++;
       }
-      else{
-        break;
-      }
+      else break;  
     }
     
     if (contador >= grup){
       return 1;
     }
-    else
-    {
-      return 0;
-    }
+    else return 0;
   }
 
   
@@ -193,7 +183,7 @@ public class MinMax implements Jugador, IAuto{
         }
       }
     }
-    
+
     // Retornem la puntuacio de la heuristica la qual es calcula com la suma de tots els grups de 4, 3 i 2 fitxes que tenim, restant els grups de 4, 3 i 2 fitxes que te l'oponent
     // Aixo es fa perque si tenim un grup de 4 fitxes i l'oponent no en te cap, aixo ens dona una puntuacio de 1000, i si l'oponent te un grup de 4 fitxes i nosaltres no en tenim cap, aixo ens dona una puntuacio de -1000
     // Es a dir, cada grup de fitxes, es multiplica per un pes que depen de la seva mida, i aixo ens dona una puntuacio que ens indica si tenim una posicio millor que l'oponent o no
