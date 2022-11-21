@@ -7,7 +7,7 @@ package edu.epsevg.prop.lab.c4;
 
 /**
  *
- * @author bernat
+ * @author eric
  */
 public class Prova {
     public static void main(String[] args) {

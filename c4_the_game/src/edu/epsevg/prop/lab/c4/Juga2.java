@@ -13,7 +13,7 @@ import javax.swing.SwingWorker;
 
 /**
  *
- * @author Hume
+ * @author eric
  */
 public class Juga2 extends javax.swing.JFrame {
 
@@ -95,11 +95,11 @@ public class Juga2 extends javax.swing.JFrame {
         //</editor-fold>
 
         // Definiu al vostre gust els jugadors a enfrontar.
-        Jugador p2 = new MinMax();
+        Jugador p2 = new MinMax(8);
         //Jugador p2 = new Manual();
 
-        //Jugador p1 = new Profe(8, false);
-        Jugador p1 = new Aleatori();
+        Jugador p1 = new Profe(8, false);
+        //Jugador p2 = new Qmatic(6,false);
 
         boolean autoMode = true;
         final Juga2 j = new Juga2(p1, p2, autoMode);

@@ -3,7 +3,7 @@ package edu.epsevg.prop.lab.c4;
 /**
  * Jugador aleatori
  * "Alea jacta est"
- * @author Profe
+ * @author eric
  */
 public class Aleatori
   implements Jugador, IAuto

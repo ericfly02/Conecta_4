@@ -1,44 +1,19 @@
 package edu.epsevg.prop.lab.c4;
 
 /**
- * Jugador aleatori
- * "Alea jacta est"
- * @author Profe
+ * MINIMAX
+ * "Minimax mes heuristica"
+ * @author eric
  */
 public class MinMax implements Jugador, IAuto{
   private String nom;
+  private int profunditat;
 
-  public MinMax()
+  public MinMax(int profunditat)
   {
     nom = "SUDO";
+    this.profunditat = profunditat;
   }
-
-  // Creation of a simple heuristic function
-  /*
-
-  HEURISTICA: la heuristica escollida, anirà sumant un 1 per cada casella que tingui un fitxa del nostre color
-  i restant un 1 per cada casella que tingui un fitxa de l'altre color. Així, si la heuristica es 0, vol dir que
-  el tauler esta equilibrat, si es major que 0 vol dir que tenim mes fitxes que ell i si es menor que 0 vol dir
-  que ell te mes fitxes que nosaltres.
-  
-  public int heuristica(Tauler t){
-    int valor = 0;
-    int mida = t.getMida();
-    int[][] tauler = t.getTauler();
-    for (int i = 0; i < mida; i++){
-      for (int j = 0; j < mida; j++){
-        if (t.getColor(i, j) == 1){
-          valor += 1;
-        }
-        else if (t.getColor(i, j) == 2){
-          valor -= 1;
-        }
-      }
-    }
-    return valor;
-  }
-  
-  */
 
   /*
   PRIMERA_HEURISTICA --> Per a la primerar heuristica es miraràn només les solucións en 4 en rallla que es puguin donar tant en vertical com en horitzontal. 
@@ -196,8 +171,6 @@ public class MinMax implements Jugador, IAuto{
   // Creació de la funcio MINIMAX
   public int[] minimax(Tauler t, int color, int profunditat, int alpha, int beta, int columna){
     // Si el joc s'ha acabat o la profunditat es 0, retornem la heuristica
-    
-    
       
     if (t.solucio(columna, -1))
     {
@@ -282,12 +255,16 @@ public class MinMax implements Jugador, IAuto{
       }
       ++i;
     }
+    // Si el primer moviment el realitzem nosaltres (es a dir que som "p1"), realitzem la primera tirada a la columa 2
+    // ja que despres de realitzar diverses proves, hem vist que es la columna més optima per a començar per al nostre minimax
+    // normalment, un bon lloc per a realitzar la primera tirada tambe pot ser les caselles centrals, ja que si es dominen les caselles
+    // centrals, hi han moltes possibilitats de guanyar la partida
     if (buit) {
-      System.out.println("RANDOM");
-      return (int)(t.getMida() * Math.random());
+      System.out.println("MOVIMENT TACTIC COLUMNA 2");
+      return 1;
     }
 
-    int[] a = minimax(t, color, 8, -9999999, 9999999, 0);
+    int[] a = minimax(t, color, profunditat, -9999999, 9999999, 0);
 
     System.out.println("MILLOR HEURISTICA: "+a[1]+" - COLUMNA: "+a[0]);
     return a[0];    

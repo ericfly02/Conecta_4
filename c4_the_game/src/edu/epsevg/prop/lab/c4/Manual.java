@@ -2,7 +2,7 @@ package edu.epsevg.prop.lab.c4;
 
 /**
  * Jugador Manual (sobre la UI)
- * @author Profe
+ * @author eric
  */
 public class Manual implements Jugador{
 
