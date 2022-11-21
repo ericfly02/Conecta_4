@@ -1,28 +1,33 @@
 package edu.epsevg.prop.lab.c4;
 
 /**
- * MINIMAX
- * "Minimax mes heuristica"
+ * MINMAX
+ * "Minmax mes heuristica"
  * @author eric
  */
 public class MinMax implements Jugador, IAuto{
   private String nom;
   private int profunditat;
 
+  /**
+   * Constructor de la classe MinMax
+   * @param profunditat profunditat de minimax ( comptant torns de player 1 i player 2 separadament )
+   */
   public MinMax(int profunditat)
   {
     nom = "SUDO";
     this.profunditat = profunditat;
   }
 
-  /*
-  PRIMERA_HEURISTICA --> Per a la primerar heuristica es miraràn només les solucións en 4 en rallla que es puguin donar tant en vertical com en horitzontal. 
-  Així, si la heuristica es menys infinit, vol dir que hi ha una possible solució (en vertical o horitzontal) per a l'altre jugador i si es mes infinit, vol 
-  dir que hi ha una possible solució per a nosaltres (en vertical o horitzontal). També s'aniran guardant en una variable el numero maxim de fitxes en posició
-  guanyadora que tenim i s'aniran sumant a la variable, per altra banda, s'aniran restant a la mateixa variable el numero maxim de fitxes en posició guanyadora 
-  que tingui l'altre jugador. Així, si la heuristica es 0, vol dir que el tauler esta equilibrat, si es major que 0 vol dir que tenim mes fitxes que ell (en possible posició guanyadora)
-  i si es menor que 0 vol dir que ell te mes fitxes (en possible posició guanyadora) que nosaltres.
-  */
+  /**
+   * La funció té un comptador, per a saber el nombre de fitxes que hi ha seguides de manera vertical des de la posició passada per argument fins al final del tauler, si troba una fitxa de diferent color para. Seguidament, mira si el nombre de fitxes que ha trobat és major o igual que el grup a avaluar, és a dir, que hi ha 4,3 o 2 fitxes seguides. Si és major o igual retorna 1, 0 altrament.
+   * @param t Tauler actual de joc
+   * @param columna columna a explorar
+   * @param fila fila a explorar
+   * @param color Color de la peça que possarà
+   * @param grup numero de fitxes del mateix jugador seguides
+   * @return Retorna 1 si hi han mes fitxes que el numero de fitxes seguides actualmetn. Retorna 0 en cas contrari
+   */ 
   public int vertical(Tauler t, int columna, int fila, int color, int grup){
     int contador = 0;
     
@@ -39,6 +44,15 @@ public class MinMax implements Jugador, IAuto{
     else return 0;
   }
 
+  /**
+   * La comprovació horitzontal és igual que la vertical però en horitzontal, itera sobre cada columna.
+   * @param t Tauler actual de joc
+   * @param columna columna a explorar
+   * @param fila fila a explorar
+   * @param color Color de la peça que possarà
+   * @param grup numero de fitxes del mateix jugador seguides
+   * @return Retorna 1 si hi han mes fitxes que el numero de fitxes seguides actualmetn. Retorna 0 en cas contrari
+   */
   public int horitzontal(Tauler t, int columna, int fila, int color, int grup){
     int contador = 0;
     
@@ -55,7 +69,15 @@ public class MinMax implements Jugador, IAuto{
     else return 0;
   }
 
-  
+  /**
+   * Aquest cop, es comprovaran les diagonals, tant ascendents com descendents. Comencem amb un comptador per a mirar quantes fitxes hi ha seguides i una variable "total" per a saber si tenim només una diagonal o dos. Després, iterem en diagonal descendent (augmentant el valor de "i" i augmentant el valor de "j") i anem comptant les fitxes, si trobem una fitxa de diferent color parem. Si el nombre de fitxes trobades supera el grup aleshores tenim una diagonal. Seguidament, farem el mateix procediment però en diagonal ascendent (disminuint el valor de "i" i augmentant el valor de "j"). Finalment, mirem si el nombre de fitxes trobades és major o igual al grup i retornem "total".
+   * @param t Tauler actual de joc
+   * @param columna columna a explorar
+   * @param fila fila a explorar
+   * @param color Color de la peça que possarà
+   * @param grup numero de fitxes del mateix jugador seguides
+   * @return Retorna 1 si hi han mes fitxes que el numero de fitxes seguides actualmetn. Retorna 0 en cas contrari
+   */
   public int diagonal(Tauler t, int columna, int fila, int color, int grup){
     int contador = 0;
     int total = 0;
@@ -101,6 +123,12 @@ public class MinMax implements Jugador, IAuto{
     return total;
   }
   
+  /**
+   * Comencem assignant el color contrari a una variable "color_oponent" per a comptar bé les fitxes seguides. Aleshores, per cada posició del tauler comprovem el nombre de grups que hi ha des d'aquella casella, en vertical, horitzontal i diagonal, per cada color i grup. Després de mirar tots, tenim el nombre de 4 en ratlles sobre aquell tauler, el nombre de 3 en ratlles i el nombre de 2 en ratlla. Assignem un pes a cada grup perquè el minimax sàpiga quina jugada té més valor, nosaltres hem multiplicat els 4 en ratlla per 1000, els 3 en ratlla per 250 i els 2 en ratlla per 2. Finalment, restem les heurístiques de cada color (per a saber qui té una jugada més valuosa o guanyadora) i la retornem.
+   * @param t Tauler actual de joc
+   * @param color Color de la peça que possarà
+   * @return retorna la heuristica (si es positiva, estarà al nostre favor, i si es negativa estara a favor de l'adversari)
+   */
   public int heuristica(Tauler t, int color){
     // La variable maxima_puntuacio ens dira, en cas que no hi hagi ningun moviment guanyador, quin es el maxim de punts que podem aconseguir
     
@@ -169,6 +197,16 @@ public class MinMax implements Jugador, IAuto{
 
   
   // Creació de la funcio MINIMAX
+  /**
+   * 
+   * @param t Tauler actual de joc
+   * @param color Color de la peça que possarà
+   * @param profunditat profunditat de minimax ( comptant torns de player 1 i player 2 separadament )
+   * @param alpha 
+   * @param beta
+   * @param columna
+   * @return 
+   */
   public int[] minimax(Tauler t, int color, int profunditat, int alpha, int beta, int columna){
     // Si el joc s'ha acabat o la profunditat es 0, retornem la heuristica
       
@@ -242,6 +280,12 @@ public class MinMax implements Jugador, IAuto{
     }
   }
 
+  /**
+   * Decideix el moviment del jugador donat un tauler i un color de peça que ha de posar.
+   * @param t Tauler actual de joc
+   * @param color Color de la peça que possarà
+   * @return Columna on fer el moviment
+   */
   public int moviment(Tauler t, int color)
   { 
     
@@ -270,6 +314,10 @@ public class MinMax implements Jugador, IAuto{
     return a[0];    
   }
 
+  /**
+   * Retorna el nom del jugador que s'utlilitza per visualització a la UI
+   * @return Nom del jugador
+   */
   public String nom()
   {
     return nom;
